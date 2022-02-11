@@ -22,11 +22,13 @@ export const Form = styled.form`
     }
   }
   button {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     font-size: 16px;
     line-height: 1.62;
     text-align: center;
-    width: 120px;
+    max-width: 220px;
     background: #f5f4fa;
     border: none;
     border-radius: 4px;
