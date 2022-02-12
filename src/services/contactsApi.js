@@ -33,7 +33,6 @@ export const contactsApi = createApi({
     }),
   }),
 });
-
 export const {
   useFetchContactsQuery,
   useAddContactMutation,

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { ImUserMinus, ImBin } from 'react-icons/im';
 import { useDeleteContactMutation } from '../../services/contactsApi';
-const ContactListItem = ({ id, name, number }) => {
+export default function ContactListItem({ id, name, phone }) {
   const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
   return (
     <li>
-      {name}: {number}
+      {name}: {phone}
       <button
         type="button"
         onClick={() => deleteContact(id)}
@@ -19,11 +19,10 @@ const ContactListItem = ({ id, name, number }) => {
       </button>
     </li>
   );
-};
+}
 ContactListItem.protoTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  // onDelete: PropTypes.func.isRequired,
+  phone: PropTypes.string.isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
-export default ContactListItem;

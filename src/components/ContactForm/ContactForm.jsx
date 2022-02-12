@@ -1,12 +1,8 @@
-// import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { useState } from 'react';
 import { Spinner } from '../Spinner/Spinner';
-// import { connect } from 'react-redux';
-// import { addContact } from '../../redux/contacts/contacts-actions';
 import { Form } from './ContactForm.styled';
 import { useAddContactMutation } from '../../services/contactsApi';
-
 export default function ContactForm() {
   const [addContact, { isLoading }] = useAddContactMutation();
   const [name, setName] = useState('');
@@ -29,7 +25,6 @@ export default function ContactForm() {
   const handleSubmit = event => {
     event.preventDefault();
     addContact({ name, phone });
-    // onSubmit({ name, number });
     resetForm();
   };
   const resetForm = () => {
@@ -70,8 +65,3 @@ export default function ContactForm() {
     </Form>
   );
 }
-// ContactForm.propTypes = { onSubmit: PropTypes.func.isRequired };
-// const mapDispatchToProps = dispatch => ({
-//   onSubmit: value => dispatch(addContact(value)),
-// });
-// export default connect(null, mapDispatchToProps)(ContactForm);
