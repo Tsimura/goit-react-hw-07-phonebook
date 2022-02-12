@@ -1,10 +1,15 @@
 import shortid from 'shortid';
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Spinner } from '../Spinner/Spinner';
 import { Form } from './ContactForm.styled';
-import { useAddContactMutation } from '../../services/contactsApi';
+import {
+  useFetchContactsQuery,
+  useAddContactMutation,
+} from '../../services/contactsApi';
 export default function ContactForm() {
   const [addContact, { isLoading }] = useAddContactMutation();
+  const { data: contacts } = useFetchContactsQuery();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const nameInputId = shortid.generate();
@@ -22,9 +27,22 @@ export default function ContactForm() {
         return;
     }
   };
+  const duplicateNameChecking = name =>
+    contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase());
+  const duplicateNumberChecking = phone =>
+    contacts.find(contact => contact.phone === phone);
   const handleSubmit = event => {
     event.preventDefault();
-    addContact({ name, phone });
+    if (duplicateNameChecking(name)) {
+      toast.error(`Sorry, but user ${name} name is already in contacts.`);
+    } else if (duplicateNumberChecking(phone)) {
+      toast.error(
+        `Sorry, but user with ${phone} phone is already in contacts.`
+      );
+    } else addContact({ name, phone });
+    toast.success(
+      `User  ${name} with phone number ${phone} has been successfully added to the phone book..`
+    );
     resetForm();
   };
   const resetForm = () => {

@@ -1,25 +1,23 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import ContactListItem from '../ContactListItem';
-import { ContactListWrapper } from './ContactList.styled';
+import FadingLoader from '../Loader/Loader';
 import { useFetchContactsQuery } from '../../services/contactsApi';
-
+import { ContactListWrapper } from './ContactList.styled';
 export default function ContactList() {
-  const filterValue = useSelector(state => state.filter);
+  const normalizedFilter = useSelector(state => state.filter).toLowerCase();
   const { data: contacts, isFetching } = useFetchContactsQuery();
   const emptyPhonebook = contacts?.length === 0 && !isFetching;
-
   return (
     <ContactListWrapper>
       {contacts &&
         !isFetching &&
         contacts
           .filter(contact =>
-            contact.name.toLowerCase().includes(filterValue.toLowerCase())
+            contact.name.toLowerCase().includes(normalizedFilter)
           )
           .map(contact => <ContactListItem key={contact.id} {...contact} />)}
-
-      {isFetching && <p>Loading...</p>}
+      {isFetching && <FadingLoader />}
       {emptyPhonebook && <p>You don't have contacts yet...</p>}
     </ContactListWrapper>
   );

@@ -22,7 +22,7 @@ export const contactsApi = createApi({
         method: 'POST',
         body: newContact,
       }),
-      invalidatesTags: [{ type: 'Contact', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
     }),
     deleteContact: builder.mutation({
       query: contactId => ({
