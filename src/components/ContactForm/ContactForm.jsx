@@ -39,10 +39,11 @@ export default function ContactForm() {
       toast.error(
         `Sorry, but user with ${phone} phone is already in contacts.`
       );
-    } else addContact({ name, phone });
-    toast.success(
-      `User  ${name} with phone number ${phone} has been successfully added to the phone book..`
-    );
+    } else
+      addContact({ name, phone }) &&
+        toast.success(
+          `User ${name} with phone number ${phone} has been successfully added to the phone book.`
+        );
     resetForm();
   };
   const resetForm = () => {

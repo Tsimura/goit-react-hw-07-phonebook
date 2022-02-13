@@ -5,18 +5,22 @@ import FadingLoader from '../Loader/Loader';
 import { useFetchContactsQuery } from '../../services/contactsApi';
 import { ContactListWrapper } from './ContactList.styled';
 export default function ContactList() {
-  const normalizedFilter = useSelector(state => state.filter).toLowerCase();
+  const filter = useSelector(state => state.filter);
   const { data: contacts, isFetching } = useFetchContactsQuery();
+  const getVisibleContacts = (contacts, filter) => {
+    const normalizedFilterCont = filter.toLowerCase();
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(normalizedFilterCont)
+    );
+  };
   const emptyPhonebook = contacts?.length === 0 && !isFetching;
+  const makeContactsList = contacts && !isFetching;
   return (
     <ContactListWrapper>
-      {contacts &&
-        !isFetching &&
-        contacts
-          .filter(contact =>
-            contact.name.toLowerCase().includes(normalizedFilter)
-          )
-          .map(contact => <ContactListItem key={contact.id} {...contact} />)}
+      {makeContactsList &&
+        getVisibleContacts(contacts, filter).map(contact => (
+          <ContactListItem key={contact.id} {...contact} />
+        ))}
       {isFetching && <FadingLoader />}
       {emptyPhonebook && <p>You don't have contacts yet...</p>}
     </ContactListWrapper>
